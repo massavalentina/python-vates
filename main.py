@@ -1,6 +1,6 @@
 # Crear una lista inicial de items
 # Campos de items: id(INT), name(STR), description(STR), price(INT), is_offer(BOOL)
-# 1) Crear un CRUD báscio completo (GET, GETxid PUT DELETE DETELExid)
+#- 1) Crear un CRUD báscio completo (GET, GETxid PUT DELETE DETELExid)
 # 2) Get => Obtener todos los items, que se puedan filtrar por estado (en oferta o no) y por limite de precios
 # 3) Devolver listado de items filtrado y adicionalmente una leyenda con el porcentaje de items seleccionados
 # 4) Get x id => Obtener un item por id y devolver el item SIN el campo de descripcion
@@ -32,7 +32,7 @@ class Item:
 
 #Modelo de Base para la Request (PYDANTICS)
 class ItemRequest(BaseModel):
-    id: Optional[int] = Field(title='id is not required')
+    item_id: Optional[int] = Field(title='id is not required')
     name: str = Field(min_length=3)
     description: str = Field(min_length=1, max_length=200)
     price: int = Field(gt=0, lt=1000)
@@ -53,7 +53,8 @@ INITIAL_ITEMS = [
 ]
 
 
-############# C R U D básico
+##---------- C R U D básico (falta delete general)
+
 @app.get("/items")
 async def show_all_items():
     return INITIAL_ITEMS
@@ -73,3 +74,26 @@ async def delete_item(item_id: int = Path(gt=0)):
     for i in range(len(INITIAL_ITEMS)):
         if INITIAL_ITEMS[i].id == item_id:
             INITIAL_ITEMS.pop(i)
+
+##------------ GET BY ID
+
+@app.get("/items/{item_id}")
+async def get_by_id(item_id: int):
+    item_by_id = []
+    for item in INITIAL_ITEMS:
+        if item.get('id').casefold() == item_by_id.casefold():
+            item_by_id.append(item)
+    return f"Item con id:{id} solicitado"
+
+
+
+##---------------------------no se
+
+@app.get("/items/{offer_status}/")
+async def get_offer_status_by_query(offer_status : bool, price: int):
+    item_by_offer = []
+    for item in INITIAL_ITEMS:
+        if item.get("is_offer").casefold() == offer_status.casefold() and \
+            item.get("price").casefolg() == price.casefold():
+            item_by_offer.append(item)
+            return item_by_offer
