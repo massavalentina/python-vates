@@ -92,8 +92,8 @@ async def get_by_id(item_id: int):
 @app.get("/items/{offer_status}/")
 async def get_offer_status_by_query(offer_status : bool, price: int):
     item_by_offer = []
-    for item in INITIAL_ITEMS:
+    for item in INITIAL_ITEMS:                                              ##filtro por offer status
         if item.get("is_offer").casefold() == offer_status.casefold() and \
-            item.get("price").casefolg() == price.casefold():
+            item.get("price").casefold() == price.casefold():               ##filtro por rango de precio
             item_by_offer.append(item)
             return item_by_offer
