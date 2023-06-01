@@ -8,13 +8,13 @@ class UserModel(Base) :
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-
+     ##relacion
     items = relationship("Item", back_populates='owner')                   ##relacion entre tablas, el primer parametro es el nombre de la tabla, el segundo parametro es el nombre de la columna
 
 
 class ItemModel(Base):
     __tablename__ = "items"
-    id = Column(Integer, primary_key=True, index=True)                     
+    id = Column(Integer, primary_key=True, index=True)           ##siempre viene solo                    
     title = Column(String, unique=True, index=True)
     description = Column(String, unique=True, index=True)
     owner_id = Column(Integer, ForeignKey('users.id'))                     ##fk proveniente de la tabla users(el id de la tabla users)
