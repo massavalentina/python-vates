@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, Body
 from pydantic import BaseModel 
 from typing import Optional, Union
 
@@ -24,7 +24,7 @@ class Item(BaseModel):
     precio: int
     impuestos: Union[str, None] = None
     etiqueta: set[str] = set()
-    usuarios: list[Usuario]
+    usuario: list[Usuario]
 
 # ! Al ser Item de herencia BaseModel, ya no es necesario crear un constructor
 # def __init__(self, nombre, descripcion, precio, impuestos):
@@ -50,3 +50,8 @@ async def update_item(item_id: int = Path(gt=0, le= 1000), q: Optional[str] = No
     return resultado
        
     
+
+
+
+
+
