@@ -2,22 +2,18 @@ from database import engine, Base, get_db
 from fastapi import FastAPI, Depends, HTTPException
 from crud import *
 from schemas import UserOutput
-
+from routers import auth, items
 
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)   ##voy a usar de Base, create_all + engine permite la conexion para crear las tablas
+Base.metadata.create_all(bind=engine)                        ##voy a usar de Base, create_all + engine permite la conexion para crear las tablas
 
-@app.get("/api/users")                                       ##establece debe retornar (a que me comprometo a devolver)
-async def get_all_users(db: Session = Depends(get_db)):      ##db:Session va a ser igual a una dependencia de una funcion (get_db)  ##Depends metodo de fastapi.Permite que mientras use este endpoint voy a tener una sesion de conexion a db abierta
-    users_list = get_users(db)                               ##guardo en user_list la lista que me trae el servicio, y por parametro debo pasar una conexion a db
-    return users_list
+                                                
+app.include_router(auth.router)
+app.include_router(items.router)
 
-@app.post("/api/users")
-async def create_user_query(user: UserCreate, db: Session = Depends(get_db)):                     
-    email_user= get_user_by_email(db, user.email)                                ##se corrobora que no
-    if email_user:
-        raise HTTPException(status_code=400, detail="Email already registered")  ##siempre tiene un status cod y un detail
-    user = post_user(db, user)
-    return user
+
+
+
+

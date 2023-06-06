@@ -32,16 +32,16 @@ def get_all_books(db:Session):
     books_db = db.query(ItemModel).all()
     return books_db
 
-def post_book(db:Session, book: ItemCreate, owner_id: int):         
-    book_db = ItemModel(                          ##crea un obj de tipo ItemModel (declarative base)
+def create_book(db:Session, book: ItemCreate, owner_id: int):         
+    new_book = ItemModel(                          ##crea un obj de tipo ItemModel (declarative base)
         title=book.title,
         description=book.description,
         owner_id=owner_id
     )
-    db.add(book_db)
+    db.add(new_book)
     db.commit()
-    db.refresh(book_db)
-    return book_db
+    db.refresh(new_book)
+    return new_book
 print("Book created")
 
 ################otra opcion para hacerlo
