@@ -1,9 +1,9 @@
-from database import engine, Base, get_db
-from fastapi import FastAPI, Depends, HTTPException
 from crud import *
+from database import Base, engine, get_db
+from routers import auth, items, test
 from schemas import UserOutput
-from routers import auth, items
 
+from fastapi import Depends, FastAPI, HTTPException
 
 app = FastAPI()
 
@@ -12,6 +12,7 @@ Base.metadata.create_all(bind=engine)                        ##voy a usar de Bas
                                                 
 app.include_router(auth.router)
 app.include_router(items.router)
+app.include_router(test.router)
 
 
 
