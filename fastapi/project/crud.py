@@ -1,7 +1,8 @@
 ##logica de todo
+from models import ItemModel, UserModel
+from schemas import ItemCreate, UserCreate
 from sqlalchemy.orm import Session
-from models import UserModel, ItemModel
-from schemas import UserCreate, ItemCreate
+
 
 def get_users(db: Session):          ##db: algo para que defina como un tipo de dato que pueda recibir  ##objeto del tipo session recibe (coneccion a db abierta) 
     users_db = db.query(UserModel).all()             ##query metodo(consulta) de db. Luego del (UserModel). se pone un meteodo depende lo que quieras traer
