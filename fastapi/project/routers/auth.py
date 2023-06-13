@@ -25,7 +25,7 @@ async def create_user_query(user: UserCreate, db: Session = Depends(get_db)):
     return user
 
 
-@router.get("/api/users/{user_id}", response_model=UserOutput)                       ##pertnece a la clase UserOutput
+@router.get("/api/users/{user_id}", response_model=UserOutput)   ##que devuelva un obj que pertenece a la clase UserOutput
 async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = get_user(db, user_id)
     if not user:
